@@ -1,0 +1,61 @@
+Работа с контроллером беспроводных локальных сетей
+
+Цель: Научиться создавать разлтчные локальные бесрповодные сети с изолированным пространством VLAN.
+
+Порядок подключения контроллера и LAP:
+
+1) Обеспечить физическое подкдлючение контроллер к легкоесным точкм доступа (например vlan 1 н коммутаторе)
+2) настроить ip-конфигурацию на интерфейсе management контроллера
+3) настроить dhcp-сервер для доступа LAP к контроллеру - укзать ip-адрес контроллера в настройке WLC
+4) проверяем подключение точек к контроллеру (CAPWAP status)
+5) добавляем локальные беспроводные сети в настройке контроллера Wireless LANs, указываем номера VLAN для каждой беспроводной сети
+6) добавляем нужные VLAN в коммутатор, переводим порты LAP в trunk
+7) добавляем беспроводное устройство и подключаем их к нужной беспроводной сет
+
+При поделючении контроллера к интерфейсу маршшрутизатора необходимо настроить helper-address длф всех интерфесов, к которым будут подключаться беспроводные клиенты:
+
+interface GigabitEthernet0/0
+ ip address 192.168.100.254 255.255.255.0
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/1
+ ip address 192.168.101.254 255.255.255.0
+ ip helper-address 192.168.10.1
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/2
+ ip address 192.168.102.254 255.255.255.0
+ ip helper-address 192.168.10.1
+ duplex auto
+ speed auto
+!
+interface GigabitEthernet0/2.2
+ encapsulation dot1Q 2
+ ip address 192.168.2.254 255.255.255.0
+ ip helper-address 192.168.10.1
+!
+interface GigabitEthernet0/2.3
+ encapsulation dot1Q 3
+ ip address 192.168.3.254 255.255.255.0
+ ip helper-address 192.168.10.1
+!
+interface GigabitEthernet0/2.4
+ encapsulation dot1Q 4
+ ip address 192.168.4.254 255.255.255.0
+ ip helper-address 192.168.10.1
+!
+interface GigabitEthernet0/2.5
+ encapsulation dot1Q 5
+ ip address 192.168.5.254 255.255.255.0
+ ip helper-address 192.168.10.1
+!
+interface GigabitEthernet0/2.6
+ encapsulation dot1Q 6
+ ip address 192.168.6.254 255.255.255.0
+ ip helper-address 192.168.10.1
+!
+interface GigabitEthernet0/2.10
+ encapsulation dot1Q 10
+ ip address 192.168.10.254 255.255.255.0
